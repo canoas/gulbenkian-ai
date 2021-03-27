@@ -12,8 +12,8 @@ def train(args, data, show_loss, show_topk):
     # top-K evaluation settings
     user_list, train_record, test_record, item_set, k_list = topk_settings(show_topk, train_data, test_data, n_item)
 
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
+    with tf.compat.v1.Session() as sess:
+        sess.run(tf.compat.v1.global_variables_initializer())
 
         for step in range(args.n_epochs):
             # training

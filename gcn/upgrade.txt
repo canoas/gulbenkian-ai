@@ -1,0 +1,151 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 7 files
+Detected 14 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: gcn\aggregators.py
+--------------------------------------------------------------------------------
+gcn\aggregators.py:67:27: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\aggregators.py:69:24: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\aggregators.py:91:27: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\aggregators.py:93:24: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\aggregators.py:120:27: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\aggregators.py:122:24: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+--------------------------------------------------------------------------------
+File: gcn\data_loader.py
+--------------------------------------------------------------------------------
+gcn\data_loader.py:25:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+gcn\data_loader.py:65:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+File: gcn\model.py
+--------------------------------------------------------------------------------
+gcn\model.py:42:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\model.py:44:33: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\model.py:46:35: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+gcn\model.py:50:31: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+gcn\model.py:77:26: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+gcn\model.py:78:28: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+================================================================================
+Detailed log follows:
+
+================================================================================
+================================================================================
+Input tree: 'gcn'
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'gcn\\aggregators.py'
+ outputting to 'gcn_tf2\\aggregators.py'
+--------------------------------------------------------------------------------
+
+47:35: INFO: Added keywords to args of function 'tf.reduce_mean'
+48:46: INFO: Renamed keyword argument for tf.nn.softmax from dim to axis
+54:35: INFO: Added keywords to args of function 'tf.reduce_mean'
+57:35: INFO: Added keywords to args of function 'tf.reduce_mean'
+66:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+67:27: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+67:27: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+68:56: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+69:24: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+69:24: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+69:70: INFO: tf.zeros_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+69:70: INFO: Renamed 'tf.zeros_initializer' to 'tf.compat.v1.zeros_initializer'
+77:17: INFO: Changing keep_prob arg of tf.nn.dropout to rate
+
+90:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+91:27: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+91:27: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+92:60: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+93:24: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+93:24: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+93:70: INFO: tf.zeros_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+93:70: INFO: Renamed 'tf.zeros_initializer' to 'tf.compat.v1.zeros_initializer'
+104:17: INFO: Changing keep_prob arg of tf.nn.dropout to rate
+
+119:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+120:27: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+120:27: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+121:56: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+122:24: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+122:24: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+122:70: INFO: tf.zeros_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+122:70: INFO: Renamed 'tf.zeros_initializer' to 'tf.compat.v1.zeros_initializer'
+130:17: INFO: Changing keep_prob arg of tf.nn.dropout to rate
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'gcn\\data_loader.py'
+ outputting to 'gcn_tf2\\data_loader.py'
+--------------------------------------------------------------------------------
+
+25:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+65:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'gcn\\main.py'
+ outputting to 'gcn_tf2\\main.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'gcn\\model.py'
+ outputting to 'gcn_tf2\\model.py'
+--------------------------------------------------------------------------------
+
+14:15: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+37:28: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+38:28: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+39:22: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+42:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+42:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+44:33: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+44:33: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+46:35: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+46:35: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+50:31: INFO: Added keywords to args of function 'tf.nn.embedding_lookup'
+50:31: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+61:22: INFO: Added keywords to args of function 'tf.reduce_sum'
+77:26: INFO: Added keywords to args of function 'tf.nn.embedding_lookup'
+77:26: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+78:28: INFO: Added keywords to args of function 'tf.nn.embedding_lookup'
+78:28: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+102:25: INFO: Added keywords to args of function 'tf.reduce_mean'
+111:25: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'gcn\\preprocess.py'
+ outputting to 'gcn_tf2\\preprocess.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'gcn\\req-test.py'
+ outputting to 'gcn_tf2\\req-test.py'
+--------------------------------------------------------------------------------
+
+2:0: INFO: Not upgrading symbols because `tensorflow.compat.v1` was directly imported as `tf`.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'gcn\\train.py'
+ outputting to 'gcn_tf2\\train.py'
+--------------------------------------------------------------------------------
+
+15:9: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+16:17: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+--------------------------------------------------------------------------------
+

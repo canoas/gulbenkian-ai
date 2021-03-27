@@ -11,7 +11,7 @@ class KGCN(object):
 
     @staticmethod
     def get_initializer():
-        return tf.contrib.layers.xavier_initializer()
+        return tf.compat.v1.keras.initializers.VarianceScaling(scale=1.0, mode="fan_avg", distribution="uniform")
 
     def _parse_args(self, args, adj_entity, adj_relation):
         # [entity_num, neighbor_sample_size]
@@ -34,20 +34,21 @@ class KGCN(object):
             raise Exception("Unknown aggregator: " + args.aggregator)
 
     def _build_inputs(self):
-        self.user_indices = tf.placeholder(dtype=tf.int64, shape=[None], name='user_indices')
-        self.item_indices = tf.placeholder(dtype=tf.int64, shape=[None], name='item_indices')
-        self.labels = tf.placeholder(dtype=tf.float32, shape=[None], name='labels')
+        tf.compat.v1.disable_eager_execution()
+        self.user_indices = tf.compat.v1.placeholder(dtype=tf.int64, shape=[None], name='user_indices')
+        self.item_indices = tf.compat.v1.placeholder(dtype=tf.int64, shape=[None], name='item_indices')
+        self.labels = tf.compat.v1.placeholder(dtype=tf.float32, shape=[None], name='labels')
 
     def _build_model(self, n_user, n_entity, n_relation):
-        self.user_emb_matrix = tf.get_variable(
+        self.user_emb_matrix = tf.compat.v1.get_variable(
             shape=[n_user, self.dim], initializer=KGCN.get_initializer(), name='user_emb_matrix')
-        self.entity_emb_matrix = tf.get_variable(
+        self.entity_emb_matrix = tf.compat.v1.get_variable(
             shape=[n_entity, self.dim], initializer=KGCN.get_initializer(), name='entity_emb_matrix')
-        self.relation_emb_matrix = tf.get_variable(
+        self.relation_emb_matrix = tf.compat.v1.get_variable(
             shape=[n_relation, self.dim], initializer=KGCN.get_initializer(), name='relation_emb_matrix')
 
         # [batch_size, dim]
-        self.user_embeddings = tf.nn.embedding_lookup(self.user_emb_matrix, self.user_indices)
+        self.user_embeddings = tf.nn.embedding_lookup(params=self.user_emb_matrix, ids=self.user_indices)
 
         # entities is a list of i-iter (i = 0, 1, ..., n_iter) neighbors for the batch of items
         # dimensions of entities:
@@ -58,7 +59,7 @@ class KGCN(object):
         self.item_embeddings, self.aggregators = self.aggregate(entities, relations)
 
         # [batch_size]
-        self.scores = tf.reduce_sum(self.user_embeddings * self.item_embeddings, axis=1)
+        self.scores = tf.reduce_sum(input_tensor=self.user_embeddings * self.item_embeddings, axis=1)
         self.scores_normalized = tf.sigmoid(self.scores)
 
     def get_neighbors(self, seeds):
@@ -74,8 +75,8 @@ class KGCN(object):
 
     def aggregate(self, entities, relations):
         aggregators = []  # store all aggregators
-        entity_vectors = [tf.nn.embedding_lookup(self.entity_emb_matrix, i) for i in entities]
-        relation_vectors = [tf.nn.embedding_lookup(self.relation_emb_matrix, i) for i in relations]
+        entity_vectors = [tf.nn.embedding_lookup(params=self.entity_emb_matrix, ids=i) for i in entities]
+        relation_vectors = [tf.nn.embedding_lookup(params=self.relation_emb_matrix, ids=i) for i in relations]
 
         for i in range(self.n_iter):
             if i == self.n_iter - 1:
@@ -99,7 +100,7 @@ class KGCN(object):
         return res, aggregators
 
     def _build_train(self):
-        self.base_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
+        self.base_loss = tf.reduce_mean(input_tensor=tf.nn.sigmoid_cross_entropy_with_logits(
             labels=self.labels, logits=self.scores))
 
         self.l2_loss = tf.nn.l2_loss(self.user_emb_matrix) + tf.nn.l2_loss(
@@ -108,7 +109,7 @@ class KGCN(object):
             self.l2_loss = self.l2_loss + tf.nn.l2_loss(aggregator.weights)
         self.loss = self.base_loss + self.l2_weight * self.l2_loss
 
-        self.optimizer = tf.train.AdamOptimizer(self.lr).minimize(self.loss)
+        self.optimizer = tf.compat.v1.train.AdamOptimizer(self.lr).minimize(self.loss)
 
     def train(self, sess, feed_dict):
         return sess.run([self.optimizer, self.loss], feed_dict)
